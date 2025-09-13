@@ -1,3 +1,9 @@
+## 2.0.7
+- Added comprehensive documentation (DOCUMENTATION.md)
+- Updated README with detailed fix explanations
+- Fixed pubspec.yaml with correct repository URLs
+- Improved package metadata and attribution
+
 ## 2.0.6
 - Fixed Android namespace issue for AGP 7.3+
 - Fork of image_gallery_saver2 with namespace fixes
