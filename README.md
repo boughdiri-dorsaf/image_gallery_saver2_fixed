@@ -10,16 +10,32 @@ Fork of image_gallery_saver2.
 
 Fixed Android namespace issue for AGP 7.3+. Licensed under MIT (original license preserved).
 
+## What This Package Fixes
+
+### ⚠️ Unresolved reference: Registrar Error
+
+The old plugin API (Registrar) was deprecated in Flutter plugins Kotlin v1 embedding.
+
+Flutter now uses the new V2 plugin API, which no longer relies on Registrar.
+
+That's why the original image_gallery_saver2 fails to compile on modern Flutter projects or Kotlin versions.
+
+**Other notes:**
+- Some input files use or override a deprecated API.
+- Just a warning — nothing critical, but the Registrar error is what breaks the build.
+
+This package fixes the Registrar error and ensures compatibility with modern Flutter projects.
+
 ---
 
 We use the `image_picker` plugin to select images from the Android and iOS image library, but it can't save images to the gallery. This plugin can provide this feature.
 
 ## Usage
 
-To use this plugin, add `image_gallery_saver` as a dependency in your pubspec.yaml file. For example:
+To use this plugin, add `image_gallery_saver2_fixed` as a dependency in your pubspec.yaml file. For example:
 ```yaml
 dependencies:
-  image_gallery_saver: '^2.0.3'
+  image_gallery_saver2_fixed: ^2.0.6
 ```
 
 ## iOS
