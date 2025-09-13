@@ -1,3 +1,9 @@
+## 2.0.8
+- Added Swift Package Manager (SPM) support for iOS
+- Updated iOS deployment target to 9.0 for better compatibility
+- Fixed example app dependencies and imports
+- Improved podspec metadata and descriptions
+
 ## 2.0.7
 - Added comprehensive documentation (DOCUMENTATION.md)
 - Updated README with detailed fix explanations
