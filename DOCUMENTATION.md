@@ -118,6 +118,208 @@ Saves a file (image, video, gif, etc.) to the device gallery.
 }
 ```
 
+## Example Project
+
+This package includes a complete, working example project that demonstrates all the features of the `image_gallery_saver2_fixed` plugin. The example is located in the `/example` directory and provides a comprehensive Flutter app showcasing real-world usage scenarios.
+
+### Example Project Overview
+
+The example project is a fully functional Flutter application that demonstrates:
+
+- **Widget to Image Conversion**: Converting Flutter widgets to images and saving them
+- **Network Image Downloading**: Downloading images from URLs and saving to gallery
+- **File Download and Save**: Downloading various file types (GIF, video) and saving them
+- **Permission Management**: Proper handling of storage permissions on both platforms
+- **User Interface**: Clean, intuitive UI with buttons for each feature
+- **Error Handling**: Comprehensive error handling and user feedback
+- **Progress Tracking**: Download progress indicators for network operations
+
+### Running the Example
+
+1. **Navigate to the example directory**:
+   ```bash
+   cd example
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   flutter pub get
+   ```
+
+3. **Run on your preferred platform**:
+   ```bash
+   # For Android
+   flutter run -d android
+   
+   # For iOS
+   flutter run -d ios
+   
+   # For web
+   flutter run -d web
+   ```
+
+### Example Project Structure
+
+```
+example/
+├── lib/
+│   ├── main.dart          # Main application with UI and functionality
+│   ├── utils.dart         # Utility functions for permissions and toasts
+│   └── dialog.dart        # Custom dialog components
+├── android/               # Android-specific configuration
+├── ios/                   # iOS-specific configuration
+├── pubspec.yaml          # Dependencies and project configuration
+└── README.md             # Example-specific documentation
+```
+
+### Example Features in Detail
+
+#### 1. Save Local Image
+Converts a Flutter widget (RepaintBoundary) to an image and saves it to the gallery:
+
+```dart
+_saveLocalImage() async {
+  RenderRepaintBoundary boundary =
+      _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+  ui.Image image = await boundary.toImage();
+  ByteData? byteData =
+      await (image.toByteData(format: ui.ImageByteFormat.png));
+  if (byteData != null) {
+    final result =
+        await ImageGallerySaver.saveImage(byteData.buffer.asUint8List());
+    print(result);
+    Utils.toast(result.toString());
+  }
+}
+```
+
+#### 2. Save Network Image
+Downloads an image from a URL and saves it with custom quality and name:
+
+```dart
+_saveNetworkImage() async {
+  var response = await Dio().get(
+      "https://example.com/image.jpg",
+      options: Options(responseType: ResponseType.bytes));
+  final result = await ImageGallerySaver.saveImage(
+      Uint8List.fromList(response.data),
+      quality: 60,
+      name: "hello");
+  print(result);
+  Utils.toast("$result");
+}
+```
+
+#### 3. Save Network GIF
+Downloads an animated GIF file and saves it to the gallery:
+
+```dart
+_saveNetworkGifFile() async {
+  var appDocDir = await getTemporaryDirectory();
+  String savePath = appDocDir.path + "/temp.gif";
+  String fileUrl = "https://example.com/animation.gif";
+  await Dio().download(fileUrl, savePath);
+  final result =
+      await ImageGallerySaver.saveFile(savePath, isReturnPathOfIOS: true);
+  print(result);
+  Utils.toast("$result");
+}
+```
+
+#### 4. Save Network Video
+Downloads a video file with progress tracking and saves it to the gallery:
+
+```dart
+_saveNetworkVideoFile() async {
+  var appDocDir = await getTemporaryDirectory();
+  String savePath = appDocDir.path + "/temp.mp4";
+  String fileUrl = "https://example.com/video.mp4";
+  await Dio().download(fileUrl, savePath, onReceiveProgress: (count, total) {
+    print((count / total * 100).toStringAsFixed(0) + "%");
+  });
+  final result = await ImageGallerySaver.saveFile(savePath);
+  print(result);
+  Utils.toast("$result");
+}
+```
+
+### Example Dependencies
+
+The example project uses these additional packages to provide a complete experience:
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  permission_handler: ^11.0.1    # For handling storage permissions
+  fluttertoast: ^8.2.4          # For showing user feedback
+  path_provider: ^2.1.1         # For accessing temporary directories
+  dio: ^5.4.0                   # For downloading files from URLs
+  image_gallery_saver2_fixed: ^2.0.6  # The main plugin
+```
+
+### Permission Handling in Example
+
+The example includes comprehensive permission handling:
+
+```dart
+class PermissionUtil {
+  static List<Permission> androidPermissions = <Permission>[
+    Permission.storage
+  ];
+
+  static List<Permission> iosPermissions = <Permission>[
+    Permission.storage
+  ];
+
+  static Future<Map<Permission, PermissionStatus>> requestAll() async {
+    if (Platform.isIOS) {
+      return await iosPermissions.request();
+    }
+    return await androidPermissions.request();
+  }
+}
+```
+
+### User Feedback
+
+The example provides user feedback through toast notifications:
+
+```dart
+class Utils {
+  static void toast(String msg) {
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      textColor: Colors.white,
+      fontSize: 16.0,
+      backgroundColor: Colors.black,
+    );
+  }
+}
+```
+
+### Learning from the Example
+
+The example project serves as an excellent learning resource because it:
+
+1. **Shows Real Implementation**: Demonstrates actual working code, not just snippets
+2. **Handles Edge Cases**: Includes proper error handling and permission management
+3. **Follows Best Practices**: Uses proper Flutter patterns and conventions
+4. **Provides Complete Context**: Shows how the plugin integrates with a full app
+5. **Demonstrates UI/UX**: Shows how to create a user-friendly interface
+
+### Customizing the Example
+
+You can easily customize the example to test your own scenarios:
+
+1. **Change URLs**: Replace the example URLs with your own image/video URLs
+2. **Modify UI**: Update the UI to match your design preferences
+3. **Add Features**: Extend the example with additional functionality
+4. **Test Different File Types**: Try saving different file formats
+
 ## Usage Examples
 
 ### Basic Image Saving

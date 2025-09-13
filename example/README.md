@@ -1,23 +1,81 @@
-example/lib/main.dart
+# Image Gallery Saver Example
+
+This example demonstrates how to use the `image_gallery_saver2_fixed` plugin to save images and files to the device's gallery.
+
+## Features
+
+This example app includes the following functionality:
+
+- **Save Local Image**: Convert a Flutter widget to an image and save it to the gallery
+- **Save Network Image**: Download an image from a URL and save it with custom quality and name
+- **Save Network GIF**: Download an animated GIF file and save it to the gallery
+- **Save Network Video**: Download a video file with progress tracking and save it to the gallery
+- **Permission Handling**: Automatic permission requests for storage access
+- **User Feedback**: Toast notifications to show save results
+
+## Getting Started
+
+### Prerequisites
+
+- Flutter SDK (latest stable version)
+- Android Studio / Xcode (for mobile development)
+- A physical device or emulator
+
+### Running the Example
+
+1. **Navigate to the example directory**:
+   ```bash
+   cd example
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   flutter pub get
+   ```
+
+3. **Run the example**:
+   ```bash
+   flutter run
+   ```
+
+### Platform Setup
+
+#### Android
+- Storage permissions are automatically requested
+- The app handles Android 10+ scoped storage requirements
+
+#### iOS
+- Photo library access permission is required
+- The app will prompt for permission when needed
+
+## Code Examples
+
+### Save Local Image
+Converts a Flutter widget (RepaintBoundary) to an image and saves it to the gallery:
 
 ```dart
-  _saveLocalImage() async {
+_saveLocalImage() async {
   RenderRepaintBoundary boundary =
-  _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
   ui.Image image = await boundary.toImage();
   ByteData? byteData =
-  await (image.toByteData(format: ui.ImageByteFormat.png));
+      await (image.toByteData(format: ui.ImageByteFormat.png));
   if (byteData != null) {
     final result =
-    await ImageGallerySaver.saveImage(byteData.buffer.asUint8List());
+        await ImageGallerySaver.saveImage(byteData.buffer.asUint8List());
     print(result);
     Utils.toast(result.toString());
   }
 }
+```
 
+### Save Network Image
+Downloads an image from a URL and saves it with custom quality and name:
+
+```dart
 _saveNetworkImage() async {
   var response = await Dio().get(
-      "https://ss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=a62e824376d98d1069d40a31113eb807/838ba61ea8d3fd1fc9c7b6853a4e251f94ca5f46.jpg",
+      "https://example.com/image.jpg",
       options: Options(responseType: ResponseType.bytes));
   final result = await ImageGallerySaver.saveImage(
       Uint8List.fromList(response.data),
@@ -26,24 +84,32 @@ _saveNetworkImage() async {
   print(result);
   Utils.toast("$result");
 }
+```
 
+### Save Network GIF
+Downloads an animated GIF file and saves it to the gallery:
+
+```dart
 _saveNetworkGifFile() async {
   var appDocDir = await getTemporaryDirectory();
   String savePath = appDocDir.path + "/temp.gif";
-  String fileUrl =
-      "https://hyjdoc.oss-cn-beijing.aliyuncs.com/hyj-doc-flutter-demo-run.gif";
+  String fileUrl = "https://example.com/animation.gif";
   await Dio().download(fileUrl, savePath);
   final result =
-  await ImageGallerySaver.saveFile(savePath, isReturnPathOfIOS: true);
+      await ImageGallerySaver.saveFile(savePath, isReturnPathOfIOS: true);
   print(result);
   Utils.toast("$result");
 }
+```
 
+### Save Network Video
+Downloads a video file with progress tracking and saves it to the gallery:
+
+```dart
 _saveNetworkVideoFile() async {
   var appDocDir = await getTemporaryDirectory();
   String savePath = appDocDir.path + "/temp.mp4";
-  String fileUrl =
-      "https://s3.cn-north-1.amazonaws.com.cn/mtab.kezaihui.com/video/ForBiggerBlazes.mp4";
+  String fileUrl = "https://example.com/video.mp4";
   await Dio().download(fileUrl, savePath, onReceiveProgress: (count, total) {
     print((count / total * 100).toStringAsFixed(0) + "%");
   });
@@ -52,3 +118,47 @@ _saveNetworkVideoFile() async {
   Utils.toast("$result");
 }
 ```
+
+## Dependencies
+
+The example uses these packages:
+
+- `image_gallery_saver2_fixed`: The main plugin for saving to gallery
+- `permission_handler`: For handling storage permissions
+- `fluttertoast`: For showing user feedback
+- `path_provider`: For accessing temporary directories
+- `dio`: For downloading files from URLs
+
+## Project Structure
+
+```
+lib/
+├── main.dart          # Main application with UI and functionality
+├── utils.dart         # Utility functions for permissions and toasts
+└── dialog.dart        # Custom dialog components
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Permission Denied**: Make sure storage permissions are granted
+2. **Network Errors**: Check your internet connection and URL validity
+3. **File Not Found**: Ensure the file path exists before saving
+
+### Debug Tips
+
+- Check the console output for detailed error messages
+- Use the toast notifications to see save results
+- Test on a physical device for best results
+
+## Learning More
+
+This example demonstrates best practices for:
+- Permission handling in Flutter
+- Network file downloading
+- Error handling and user feedback
+- Widget to image conversion
+- File management in Flutter
+
+For more information about the plugin, see the main package documentation.

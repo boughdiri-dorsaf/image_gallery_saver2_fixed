@@ -50,7 +50,45 @@ Add the following keys to your Info.plist file, located in <project root>/ios/Ru
  <application android:requestLegacyExternalStorage="true" .....>
  ```
 
-## Example
+## Example Project
+
+This package includes a complete example project that demonstrates all the features of the `image_gallery_saver2_fixed` plugin. The example is located in the `/example` directory and provides a working Flutter app with the following features:
+
+### Example Features
+- **Save Local Image**: Convert a Flutter widget to an image and save it to the gallery
+- **Save Network Image**: Download and save images from URLs with custom quality and naming
+- **Save Network GIF**: Download and save animated GIF files to the gallery
+- **Save Network Video**: Download and save video files to the gallery
+- **Permission Handling**: Automatic permission requests for storage access
+- **User Feedback**: Toast notifications to show save results
+
+### Running the Example
+
+1. **Navigate to the example directory**:
+   ```bash
+   cd example
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   flutter pub get
+   ```
+
+3. **Run the example**:
+   ```bash
+   flutter run
+   ```
+
+### Example Dependencies
+
+The example project uses these additional packages:
+- `permission_handler`: For handling storage permissions
+- `fluttertoast`: For showing user feedback
+- `path_provider`: For accessing temporary directories
+- `dio`: For downloading files from URLs
+
+### Example Code Snippets
+
 Saving an image from the internet, quality and name is option
 ``` dart
   _saveLocalImage() async {
