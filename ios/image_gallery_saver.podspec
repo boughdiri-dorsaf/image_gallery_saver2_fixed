@@ -3,7 +3,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'image_gallery_saver'
-  s.version          = '2.0.8'
+  s.version          = '2.0.9'
   s.summary          = 'A Flutter plugin for saving images to gallery with AGP 7.3+ compatibility.'
   s.description      = <<-DESC
 A Flutter plugin for saving images to gallery. Fixed version of image_gallery_saver2 with Android namespace issues resolved for AGP 7.3+.

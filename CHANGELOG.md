@@ -1,3 +1,8 @@
+## 2.0.9
+- Fixed Swift Package Manager (SPM) support by moving Package.swift to root directory
+- Updated Package.swift configuration for proper SPM recognition
+- Improved iOS podspec configuration for better SPM compatibility
+
 ## 2.0.8
 - Added Swift Package Manager (SPM) support for iOS
 - Updated iOS deployment target to 9.0 for better compatibility
