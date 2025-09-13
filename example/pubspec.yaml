@@ -10,20 +10,19 @@ description: Demonstrates how to use the image_gallery_saver plugin.
 version: 2.0.3+3
 
 environment:
-  sdk: '>=2.19.6 <4.0.0'
+  sdk: ">=2.19.6 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  permission_handler: ^10.3.0
-  fluttertoast: ^8.2.2
-  path_provider: ^2.0.15
-  dio: ^5.2.1+1
+  permission_handler: ^11.0.1
+  fluttertoast: ^8.2.4
+  path_provider: ^2.1.1
+  dio: ^5.4.0
 
-  image_gallery_saver:
-    path: ../
   cupertino_icons: ^1.0.5
+  image_gallery_saver2_fixed: ^2.0.6
 
 dev_dependencies:
   flutter_test:
@@ -35,7 +34,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
